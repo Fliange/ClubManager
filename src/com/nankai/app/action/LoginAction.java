@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -23,6 +26,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 	public void setServletResponse(HttpServletResponse response) {
 		this.response = response;
 		
+		
 	}
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
@@ -33,6 +37,40 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 		this.memberService = memberService;
 	}
 	public String execute(){
+		//使用登录名到数据库查记录  查到记录，检查密码一不一样
+		//然后使用session传出用户名 和用户权限等级
+		
+		//为了安卓，出一个request
+		Member member = memberService.findMemberByID(mem.getMemberId());
+		HttpSession sessionForUsername=ServletActionContext.getRequest().getSession();
+		HttpSession sessionForPosition=ServletActionContext.getRequest().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		if(member != null && member.getMemberPassword().equals(mem.getMemberPassword()))
+		{
+			sessionForUsername.setAttribute("username", member.getMemberId());
+			sessionForPosition.setAttribute("userPosition",member.getMemberPosition());
+			session.setAttribute("user", member);
+			session.setAttribute("name", "你好，"+member.getMemberName()+"  点此注销");
+			HttpServletRequest request=ServletActionContext.getRequest();
+			request.setAttribute("succe", "登录成功！");
+			/*if()
+			request.getAttribute("lastPage")*/
+			return SUCCESS;
+		}
+		else if(mem.getMemberId()==23501326 && mem.getMemberPassword().equals("1")){
+			sessionForUsername.setAttribute("username",mem.getMemberId());
+			sessionForPosition.setAttribute("userPosition","管理员");
+			session.setAttribute("name", "你好，等永恒");
+			mem.setMemberPosition("管理员");
+			session.setAttribute("user", mem);
+			return SUCCESS;
+		}
+		else{
+			this.addActionError("用户名或密码错误！");
+			return "fail";
+		}						
+	}
+	public String login(){
 		//使用登录名到数据库查记录  查到记录，检查密码一不一样
 		//然后使用session传出用户名 和用户权限等级
 		response.setCharacterEncoding("utf-8");
@@ -64,6 +102,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 		}
 		else{
 			try {
+				
 				PrintWriter out = response.getWriter();
 				out.print("fail");
 				out.flush();

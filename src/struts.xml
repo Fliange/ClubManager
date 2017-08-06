@@ -37,6 +37,10 @@
             <result name="success">index.jsp</result>
             <result name="fail">login.jsp</result>
         </action>
+        <action name="loginForAndroid" class="com.nankai.app.action.LoginAction" method="login"> 
+            <result name="success">index.jsp</result>
+            <result name="fail">login.jsp</result>
+        </action>
         <action name="register_*" class="com.nankai.app.action.RegisterAction" method="{1}"> 
             <result name="success">registerManage.jsp</result>
             <result name="register_search" type="chain">register_search</result>

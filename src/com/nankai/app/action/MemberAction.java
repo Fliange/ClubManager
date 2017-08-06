@@ -1,11 +1,17 @@
 package com.nankai.app.action;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,11 +23,25 @@ import com.nankai.app.vo.RegisterPage;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
-public class MemberAction extends ActionSupport implements ModelDriven<Member>{
+public class MemberAction extends ActionSupport implements ModelDriven<Member>,ServletResponseAware,ServletRequestAware{
 	private Member member=new Member();
 	private int currentPage=1;
 	private int pageSize=100;
 	
+	private HttpServletResponse response;
+	private HttpServletRequest request;
+
+	@Override
+	public void setServletResponse(HttpServletResponse response) {
+		this.response = response;
+		
+		
+	}
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
+		
+	}
 	public int getCurrentPage() {
 		return currentPage;
 	}
@@ -57,6 +77,54 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>{
 		else 
 		{
 			this.addActionError("用户名或密码错误！");
+			return "fail";
+		}	
+	}
+	public String updatePasswordForAndroid(){
+		response.setCharacterEncoding("utf-8");
+		String name = (String) request.getParameter("username");
+		String oldPwd = (String) request.getParameter("oldPwd");
+		String newPwd = (String) request.getParameter("newPwd");
+		String confirmPwd = (String)request.getParameter("confirmPwd");
+		Member mem = memberService.findMemberByID(Integer.parseInt(name));
+		if(mem!=null&&mem.getMemberPassword().equals(oldPwd))
+		{
+			if(newPwd.equals(confirmPwd))
+			{
+				mem.setMemberPassword(newPwd);
+				memberService.update(mem);
+				try {
+					PrintWriter out = response.getWriter();
+					out.print("success");
+					out.flush();
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return SUCCESS;
+			}else {
+				try {
+					PrintWriter out = response.getWriter();
+					out.print("difference");
+					out.flush();
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return "fail";
+			}
+			
+		}
+		else 
+		{
+			try {
+				PrintWriter out = response.getWriter();
+				out.print("none");
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return "fail";
 		}	
 	}
