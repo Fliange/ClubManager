@@ -74,6 +74,7 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
 			}
 			
 		}
+		
 		else 
 		{
 			this.addActionError("用户名或密码错误！");
