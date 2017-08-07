@@ -43,7 +43,11 @@ public class ActServiceImpl implements ActService{
 		actPage.setTotalPage(totalCount % pageSize ==0?totalCount/pageSize:totalCount/pageSize+1);
 		return actPage;
 	}
-
+	
+	@Override
+	public List<Activity> findAllForList() {
+		return actDao.findAllForList();
+	}
 	@Override
 	public Activity findMemberByID(int aid) {
 		return actDao.findActivityById(aid);

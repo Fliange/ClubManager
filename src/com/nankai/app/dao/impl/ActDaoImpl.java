@@ -49,6 +49,19 @@ public class ActDaoImpl extends HibernateDaoSupport implements ActDao{
 		return list;
 	}
 
+	//查询全部  不分页
+	@Override
+	public List<Activity> findAllForList() {
+		List list = this.getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException,SQLException {
+				Query query  = session.createQuery("from Activity");
+				List<Organization> list = query.list();
+				return list;
+			}
+		});
+		return list;
+	}
+	
 	@Override
 	public int findTotalCount() {
 		// 查询数据库中总的记录数 
