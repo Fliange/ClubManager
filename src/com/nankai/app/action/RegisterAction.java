@@ -25,6 +25,9 @@ public class RegisterAction extends ActionSupport implements ModelDriven<Registe
 	//分页需要使用的参数
 	private int currentPage=1;
 	private int pageSize=6;
+	
+	
+	
 	private HttpServletResponse response;
 	private HttpServletRequest request;
 	//配置service
