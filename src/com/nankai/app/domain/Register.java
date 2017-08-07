@@ -20,7 +20,7 @@ public class Register implements java.io.Serializable {
 	private String registerPicture;
 	private Integer registerStatus;
 	private String registerAdjust;
-
+	private String registerDate;
 	public Register() {
 	}
 
@@ -30,7 +30,7 @@ public class Register implements java.io.Serializable {
 			String registerHometown, String registerBirthday,
 			String registerGender, String registerPhone,
 			String registerPicture, Integer registerStatus,
-			String registerAdjust) {
+			String registerAdjust,String registerDate) {
 		this.departmentByRegisterIntention1 = departmentByRegisterIntention1;
 		this.departmentByRegisterIntention2 = departmentByRegisterIntention2;
 		this.registerName = registerName;
@@ -43,6 +43,15 @@ public class Register implements java.io.Serializable {
 		this.registerPicture = registerPicture;
 		this.registerStatus = registerStatus;
 		this.registerAdjust = registerAdjust;
+		this.registerDate=registerDate;
+	}
+	
+	public String getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(String registerDate) {
+		this.registerDate = registerDate;
 	}
 
 	public Integer getRegisterId() {

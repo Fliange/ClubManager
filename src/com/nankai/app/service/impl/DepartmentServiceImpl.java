@@ -18,5 +18,11 @@ public class DepartmentServiceImpl implements DepartmentService{
 	public List<Department> findAll() {
 		return departmentDao.findAll();
 	}
+
+	@Override
+	public Department findDepartmentByID(int departmentId) {
+		// TODO Auto-generated method stub
+		return departmentDao.findDepartmentByID(departmentId);
+	}
 	
 }
