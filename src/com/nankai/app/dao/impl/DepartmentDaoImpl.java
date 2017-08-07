@@ -30,4 +30,10 @@ public class DepartmentDaoImpl extends HibernateDaoSupport implements Department
 		return list;				
 	}
 
+	@Override
+	public Department findDepartmentByID(int departmentId) {
+		// TODO Auto-generated method stub
+		return this.getHibernateTemplate().get(Department.class,departmentId);
+	}
+
 }

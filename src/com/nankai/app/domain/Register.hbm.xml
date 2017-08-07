@@ -44,5 +44,8 @@
         <property name="registerAdjust" type="string">
             <column name="registerAdjust" length="10" />
         </property>
+        <property name="registerDate" type="string">
+            <column name="registerDate" length="10" />
+        </property>
     </class>
 </hibernate-mapping>
