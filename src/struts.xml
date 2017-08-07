@@ -10,7 +10,7 @@
 
 		<interceptors>
 			<interceptor name="my" class="com.nankai.app.util.loginInterceptor">
-				<param name="excludeMethods">showAll,findById,add</param>
+				<param name="excludeMethods">showAll,findById,add,showAllForList</param>
 			</interceptor>
 			<interceptor-stack name="myStack">
 				<interceptor-ref name="my"></interceptor-ref>

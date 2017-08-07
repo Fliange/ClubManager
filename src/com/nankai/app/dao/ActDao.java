@@ -12,8 +12,11 @@ public interface ActDao {
 		public void update(Activity act);
 		//删除
 		public void delete(Activity act);
-		//查询全部
+		//查询全部---分页
 		public List<Activity> findAll(int currentPage,int pageSize);
+		
+		//查询全部---不分页
+		public List<Activity> findAllForList();
 		//根据id去查询图书
 		/*public Organization findBookById(int oid);
 		public int findTotalCount();*/
