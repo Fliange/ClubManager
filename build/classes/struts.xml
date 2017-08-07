@@ -79,9 +79,12 @@
     		<result name="registerjsp">register.jsp</result>
     		<result name="updateMember">updateMember.jsp</result>
     	</action>
-    	<action name="loadImage" class="com.nankai.app.action.LoadImage" method="GenerateImage">
-    	<result name="true">index.jsp</result>
-    	<result name="false">index.jsp</result>
+	    	<action name="loadImage" class="com.nankai.app.action.LoadImage" method="GenerateImage">
+	    	<result name="true">index.jsp</result>
+	    	<result name="false">index.jsp</result>
+    	</action>
+    	<action name="Chat_*" class="com.nankai.app.action.ChatAction" method="{1}">
+    		<result name="success">index.jsp</result>
     	</action>
     </package>
 

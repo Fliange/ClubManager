@@ -50,6 +50,7 @@
 				<value>com/nankai/app/domain/Register.hbm.xml</value>
 				<value>com/nankai/app/domain/Member.hbm.xml</value>
 				<value>com/nankai/app/domain/Material.hbm.xml</value>
+				<value>com/nankai/app/domain/Chatroom.hbm.xml</value>
 			</list>
 		</property> 
 	</bean>
@@ -74,6 +75,9 @@
 		<property name="departmentService" ref="departmentService"/>
 	</bean>
 	<bean id="loginAction" class="com.nankai.app.action.LoginAction" scope="prototype"/>
+	<bean id="chatAction" class="com.nankai.app.action.ChatAction" scope="prototype">
+		<property name="chatService" ref="chatService"/>
+	</bean>
 	
 	<!-- Service的配置 -->
 	<bean id="orgService" class="com.nankai.app.service.impl.OrgServiceImpl">
@@ -95,6 +99,9 @@
 	<bean id="departmentService" class="com.nankai.app.service.impl.DepartmentServiceImpl">
 		<property name="departmentDao" ref="departmentDao"/>
 	</bean>
+	<bean id="chatService" class="com.nankai.app.service.impl.ChatServiceImpl">
+		<property name="chatDao" ref="chatDao"/>
+	</bean>
 	
 	<!-- DAO的配置 -->
 	<bean id="orgDao" class="com.nankai.app.dao.impl.OrgDaoImpl">
@@ -113,6 +120,9 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	<bean id="departmentDao" class="com.nankai.app.dao.impl.DepartmentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="chatDao" class="com.nankai.app.dao.impl.ChatDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
