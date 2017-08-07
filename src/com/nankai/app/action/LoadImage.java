@@ -48,17 +48,6 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
         } catch (Exception e) {
             return "false";
         }
-        /*try {
-         * 
-         * 
-         * 
-			byte[] byteArray=Base64.decode(imgStr);
-			ByteArrayInputStream byteArrayInputStream=new ByteArrayInputStream(byteArray);
-			Bitmap bitmap=BitmapFactory.d
-		} catch (Base64DecodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
     }
 
 	@Override

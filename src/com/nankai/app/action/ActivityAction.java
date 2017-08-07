@@ -17,6 +17,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.alibaba.fastjson.JSON;
 import com.nankai.app.domain.Activity;
+import com.nankai.app.domain.Chatroom;
 import com.nankai.app.domain.Organization;
 import com.nankai.app.service.ActService;
 import com.nankai.app.vo.ActPage;
@@ -163,5 +164,40 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 	public void setServletResponse(HttpServletResponse response) {
 		this.response = response;
 	}
-
+	public String addActivityForAndroid()
+	{
+		
+		
+		//为了安卓，出一个request
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String content = request.getParameter("ActivityName");
+		System.out.println(content+"------");
+		/*if(content != null ){
+			Chatroom newChat = new Chatroom();
+			newChat.setMessageAuthor(1);
+			newChat.setMessageContent(content);
+			chatService.add(newChat);
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				out.println("写入数据库成功喽！");
+				out.println(content);
+				out.flush();
+				out.close();
+				return null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
+		
+		return SUCCESS;
+		
+	}
 }
