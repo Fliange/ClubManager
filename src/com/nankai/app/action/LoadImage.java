@@ -22,7 +22,7 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
 	public String GenerateImage() {   //对字节数组字符串进行Base64解码并生成图片
 	    String imgStr= (String)request.getParameter("data");
 	    String username=(String)request.getParameter("id");
-		System.out.println("aaaa");
+		System.out.println(imgStr);
         if (imgStr == null) //图像数据为空
             return "false";
         BASE64Decoder decoder = new BASE64Decoder();
@@ -34,9 +34,13 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
                     b[i] += 256;
                 }
             }
-            //生成jpeg图片
-            String imgFilePath = "E://dengyongheng/ClubManager/WebContent/images/"+username+".png";//新生成的图片
-            OutputStream out = new FileOutputStream(imgFilePath);
+            //生成jpeg图片E:\EclipseWorkspace\Spring_7_17\ClubManager\WebContent\images\head
+            //String imgFilePath = "E://EclipseWorkspace/Spring_7_17/ClubManager/WebContent/images/head/"+username+".png";//新生成的图片
+            String imgPath; 
+            imgPath = LoadImage.class.getClassLoader().getResource("").getPath();
+            imgPath = imgPath.split("WEB-INF")[0];
+            imgPath = imgPath+"images/head/"+username+".png";
+            OutputStream out = new FileOutputStream(imgPath);
             out.write(b);
             out.flush();
             out.close();
