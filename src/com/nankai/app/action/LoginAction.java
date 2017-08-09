@@ -11,6 +11,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.alibaba.fastjson.JSONObject;
 import com.nankai.app.domain.Member;
 import com.nankai.app.service.MemberService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -76,10 +77,13 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 		response.setCharacterEncoding("utf-8");
 		String name = (String) request.getParameter("username");
 		String pwd = (String) request.getParameter("pwd");
+		JSONObject obj=new JSONObject();
 		if(name.equals("23501326") && pwd.equals("1")){
+			obj.put("position", "管理员");
+			obj.put("department", 0);
 			try {
 				PrintWriter out = response.getWriter();
-				out.print("管理员");
+				out.print(obj.toString());
 				out.flush();
 				out.close();
 			} catch (IOException e) {
@@ -90,9 +94,11 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 		Member member = memberService.findMemberByID(Integer.parseInt(name));
 		if(member != null && member.getMemberPassword().equals(pwd))
 		{
+			obj.put("position",member.getMemberPosition());
+			obj.put("department", member.getDepartment().getDepartmentId());
 			try {
 				PrintWriter out = response.getWriter();
-				out.print(member.getMemberPosition());
+				out.print(obj.toString());
 				out.flush();
 				out.close();
 			} catch (IOException e) {

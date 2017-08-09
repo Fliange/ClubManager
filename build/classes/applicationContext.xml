@@ -54,7 +54,9 @@
 			</list>
 		</property> 
 	</bean>
-	
+	<bean id="LoadImage" class="com.nankai.app.action.LoadImage" scope="prototype">
+		<property name="memberService" ref="memberService"/>
+	</bean>
 	<!-- 配置Action -->
 	<bean id="orgAction" class="com.nankai.app.action.OrgAction" scope="prototype">
 		<property name="orgService" ref="orgService"/>

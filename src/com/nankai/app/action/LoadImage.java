@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.nankai.app.domain.Member;
+import com.nankai.app.service.MemberService;
 import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
@@ -19,6 +21,12 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
 	
 	private HttpServletResponse response;
 	private HttpServletRequest request;
+	private MemberService memberService;
+	
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
 	public String GenerateImage() {   //对字节数组字符串进行Base64解码并生成图片
 	    String imgStr= (String)request.getParameter("data");
 	    String username=(String)request.getParameter("id");
@@ -40,6 +48,10 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
             imgPath = LoadImage.class.getClassLoader().getResource("").getPath();
             imgPath = imgPath.split("WEB-INF")[0];
             imgPath = imgPath+"images/head/"+username+".png";
+            //更换头像
+            Member member=memberService.findMemberByID(Integer.parseInt(username));
+            member.setMemberPicture("head/"+username+".png");
+            memberService.update(member);
             OutputStream out = new FileOutputStream(imgPath);
             out.write(b);
             out.flush();

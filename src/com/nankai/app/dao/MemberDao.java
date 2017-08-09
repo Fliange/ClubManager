@@ -18,4 +18,6 @@ public interface MemberDao {
 	public List<Member> findMemberByHometown(String hometown);
 	public List<Member> findMemberByPosition(String position);
 	public List<Member> findAllForManager(int currentPage, int pageSize);
+	public List<Member> findAllForManagerAndroid(String position);
+	public List<Member> findMemberByNameForAndroid(String name,int username);
 }

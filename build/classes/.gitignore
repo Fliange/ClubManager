@@ -1,5 +1,2 @@
-/applicationContext.xml
+/.gitignore
 /com
-/hibernate.cfg.xml
-/jdbc.properties
-/struts.xml

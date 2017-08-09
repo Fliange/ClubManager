@@ -35,6 +35,9 @@
         <property name="memberPhone" type="string">
             <column name="memberPhone" length="20" not-null="true" />
         </property>
+        <property name="memberPicture" type="string">
+            <column name="memberPicture" length="20" not-null="true" />
+        </property>
         <set name="departments" table="department" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="departmentLeader" not-null="true" />

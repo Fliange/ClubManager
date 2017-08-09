@@ -101,6 +101,15 @@ public class MemberServiceImpl implements MemberService{
 		registerPage.setTotalPage(totalCount % pageSize ==0?totalCount/pageSize:totalCount/pageSize+1);
 		return registerPage;
 	}
-
+	@Override
+	public List<Member> fingAllForManagerAndroid(String username) {
+		// TODO Auto-generated method stub
+		return memberDao.findAllForManagerAndroid(username);//因为这个地方page那些参数都没用我就随便写了
+	}
+	@Override
+	public List<Member> findMemberByNameForAndroid(String name, int username) {
+		return memberDao.findMemberByNameForAndroid(name, username);
+	}
+	
 
 }

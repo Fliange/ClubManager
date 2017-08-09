@@ -18,4 +18,6 @@ public interface MemberService {
 	public List<Member> findMemberByHometown(String hometown);
 	public List<Member> findMemberByPosition(String position);
 	public RegisterPage findAllForManager(int currentPage, int pageSize);
+	public List<Member> fingAllForManagerAndroid(String username);
+	public List<Member> findMemberByNameForAndroid(String name,int username);
 }

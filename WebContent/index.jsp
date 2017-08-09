@@ -6,7 +6,8 @@
 
 <head>
 <title>Home</title>
-<link rel="shortcut icon" href="images/timg.ico" type="image/X-icon"/>
+<link rel="shortcut icon" href="images/timg.ico"
+ type="image/X-icon"/>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>

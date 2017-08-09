@@ -16,6 +16,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.nankai.app.domain.Department;
 import com.nankai.app.domain.Member;
 import com.nankai.app.service.MemberService;
 import com.nankai.app.util.HibernateUtil;
@@ -34,8 +37,6 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
 	@Override
 	public void setServletResponse(HttpServletResponse response) {
 		this.response = response;
-		
-		
 	}
 	@Override
 	public void setServletRequest(HttpServletRequest request) {
@@ -138,6 +139,31 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     	memberService.delete(member1);
     	return "member_search";
     }
+    public void deleteForAndroid(){//只能删干事
+    	response.setCharacterEncoding("utf-8");
+		String number = (String) request.getParameter("memberNumber");
+		Member mem=memberService.findMemberByID(Integer.parseInt(number));
+		if(mem.getMemberPosition().equals("干事")){
+		memberService.delete(mem);
+		try {
+			PrintWriter out = response.getWriter();
+			out.print("success");
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		}else{
+			try {
+				PrintWriter out = response.getWriter();
+				out.print("fail");
+				out.flush();
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+    }
     public String searchBeforeUpdate(){
         Member member1=memberService.findMemberByID(member.getMemberId());
         ServletActionContext.getRequest().setAttribute("member",member1);
@@ -161,6 +187,31 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     	ServletActionContext.getRequest().setAttribute("members", list);
     	return "findMemberBySomething";
     }
+    public void findMemberByIdForAndroid(){
+    	response.setCharacterEncoding("utf-8");
+		String number = (String) request.getParameter("memberNumber");
+		Member mem=memberService.findMemberByID(Integer.parseInt(number));
+    	JSONObject obj=new JSONObject();
+    	obj.put("memberId", mem.getMemberId());
+	    obj.put("memberPicture", mem.getMemberPicture());
+		obj.put("memberName", mem.getMemberName());
+		obj.put("memberGender", mem.getMemberGender());
+		obj.put("memberMajor", mem.getMemberMajor());
+		obj.put("memberHometown", mem.getMemberHometown());
+		obj.put("memberPhone", mem.getMemberPhone());
+		obj.put("memberPosition", mem.getMemberPosition());
+		obj.put("memberBirthday", mem.getMemberBirthday());
+		obj.put("memberDepartment", mem.getDepartment().getDepartmentId()+mem.getDepartment().getDepartmentName());
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(obj.toString());
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+    }
     public String findMemberByDid(){
     	List<Member> list1=memberService.findMemberByDid(member.getDepartment().getDepartmentId());
     	ServletActionContext.getRequest().setAttribute("members", list1);
@@ -170,6 +221,36 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     	List<Member> list1=memberService.findMemberByName(member.getMemberName());
     	ServletActionContext.getRequest().setAttribute("members", list1);
     	return "findMemberBySomething";
+    }
+    public void findMemberByNameForAndroid(){
+    	response.setCharacterEncoding("utf-8");
+    	String membername=(String) request.getParameter("memberName");
+    	String departmentId = (String) request.getParameter("departmentId");
+    	List<Member> list1=memberService.findMemberByNameForAndroid(membername,Integer.parseInt(departmentId));
+    	JSONArray array=new JSONArray();
+    	
+		for(Member mem:list1){
+			JSONObject obj=new JSONObject();
+			obj.put("memberId", mem.getMemberId());
+		    obj.put("memberPicture", mem.getMemberPicture());
+			obj.put("memberName", mem.getMemberName());
+//			obj.put("memberGender", mem.getMemberGender());
+//			obj.put("memberMajor", mem.getMemberMajor());
+//			obj.put("memberHometown", mem.getMemberHometown());
+//			obj.put("memberphone", mem.getMemberPhone());
+//			obj.put("memberPosition", mem.getMemberPosition());
+//			obj.put("memberBirthday", mem.getMemberBirthday());
+//			obj.put("memberDepartment", mem.getDepartment().getDepartmentId()+mem.getDepartment().getDepartmentName());
+			array.add(obj);
+		}
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(array.toString());
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
     public String findMemberByGender(){
     	List<Member> list1=memberService.findMemberByGender(member.getMemberGender());
@@ -227,6 +308,35 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     	ServletActionContext.getRequest().setAttribute("managerMembers", memberPage.getMemberList());
     	ServletActionContext.getRequest().setAttribute("membersPage", memberPage);
     	return "managerSearch_success";
+    }
+    public void managerSearchForAndroid(){
+    	response.setCharacterEncoding("utf-8");
+    	String username=(String) request.getParameter("username");
+    	List<Member> memList=memberService.fingAllForManagerAndroid(username);
+    	JSONArray array=new JSONArray();
+    	
+		for(Member mem:memList){
+			JSONObject obj=new JSONObject();
+			obj.put("memberId", mem.getMemberId());
+		    obj.put("memberPicture", mem.getMemberPicture());
+			obj.put("memberName", mem.getMemberName());
+//			obj.put("memberGender", mem.getMemberGender());
+//			obj.put("memberMajor", mem.getMemberMajor());
+//			obj.put("memberHometown", mem.getMemberHometown());
+//			obj.put("memberphone", mem.getMemberPhone());
+//			obj.put("memberPosition", mem.getMemberPosition());
+//			obj.put("memberBirthday", mem.getMemberBirthday());
+//			obj.put("memberDepartment", mem.getDepartment().getDepartmentId()+mem.getDepartment().getDepartmentName());
+			array.add(obj);
+		}
+		try {
+			PrintWriter out = response.getWriter();
+			out.print(array.toString());
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 	@Override
 	public Member getModel() {

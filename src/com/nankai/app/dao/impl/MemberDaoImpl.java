@@ -71,7 +71,8 @@ public class MemberDaoImpl extends HibernateDaoSupport implements MemberDao{
 
 	@Override
 	public List<Member> findMemberByName(String name) {
-		List<Member> list = this.getHibernateTemplate().find("from Member where memberName=?",name);
+		String str = "from Member where memberName like '%"+name+"%'";
+		List<Member> list = this.getHibernateTemplate().find(str);
 		return list;
 	}
 
@@ -156,6 +157,75 @@ public class MemberDaoImpl extends HibernateDaoSupport implements MemberDao{
 			}
 		}
 		
+	}
+	@Override
+	public List<Member> findMemberByNameForAndroid(String name,int username) {
+		String str = "from Member where memberName like '%"+name+"%'"
+				+"AND memberDepartment =  "+username;
+		List<Member> list = this.getHibernateTemplate().find(str);
+		return list;
+	}
+	@Override
+	public List<Member> findAllForManagerAndroid(String username) {
+		// TODO Auto-generated method stub
+		Member mem=findMemberByID(Integer.parseInt(username));
+		if(mem.getMemberPosition().equals("高层"))
+		{
+			//2.根据member对象，获取他的department对象
+			Department dpt = mem.getDepartment();
+			//3.根据department对象，获取它的Organization对象
+			Organization org = dpt.getOrganization();
+			//4.根据Organization对象，获取他的下辖部门集合
+			Set<Department> dptSet = org.getDepartments();
+			//5.遍历部门集合，获取每个部门的成员集合
+			Set<Member> memSet = new HashSet();
+			for (Department department : dptSet) {  
+				Set<Member> temp = department.getMembers();
+				for(Member mem1:temp)
+				{
+					memSet.add(mem1);
+				}
+			} 
+			//List<Member> list = this.getHibernateTemplate().find("from Member where department.departmentId=?",did);
+			//转化一下
+			List<Member> list = new ArrayList(memSet);
+			return list;
+		}
+		else
+		{
+			if(mem.getMemberPosition().equals("管理员"))
+			{
+				List list = this.getHibernateTemplate().executeFind(new HibernateCallback() {
+					public Object doInHibernate(Session session) throws HibernateException,SQLException {
+						Query query  = session.createQuery("from Member");
+						List<Member> list = query.list();
+						return list;
+					}
+				});
+				return list;
+			}
+			else
+				
+			{
+				if(mem.getMemberPosition().equals("中层"))
+				{
+					Department dpt = mem.getDepartment();
+					Set<Member> mems = dpt.getMembers();
+					Set<Member> memSet = new HashSet();
+					for(Member mem1:mems)
+					{
+						memSet.add(mem1);
+					}
+					//转化一下
+					List<Member> list = new ArrayList(memSet);
+					return list;
+				}
+				else
+				{
+					return null;
+				}
+			}
+		}
 	}
 
 }

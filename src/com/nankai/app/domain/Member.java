@@ -20,6 +20,16 @@ public class Member implements java.io.Serializable {
 	private String memberPassword;
 	private String memberPosition;
 	private String memberPhone;
+	private String memberPicture;
+	
+	public String getMemberPicture() {
+		return memberPicture;
+	}
+
+	public void setMemberPicture(String memberPicture) {
+		this.memberPicture = memberPicture;
+	}
+
 	private Set departments = new HashSet(0);
 	public String getOldmemberPassword() {
 		return oldmemberPassword;
@@ -55,7 +65,7 @@ public class Member implements java.io.Serializable {
 
 	public Member(Department department, String memberName, String memberMajor,
 			String memberHometown, String memberBirthday, String memberGender,
-			String memberPassword, String memberPosition, String memberPhone) {
+			String memberPassword, String memberPosition, String memberPhone,String memberPicture) {
 		this.department = department;
 		this.memberName = memberName;
 		this.memberMajor = memberMajor;
@@ -65,11 +75,12 @@ public class Member implements java.io.Serializable {
 		this.memberPassword = memberPassword;
 		this.memberPosition = memberPosition;
 		this.memberPhone = memberPhone;
+		this.memberPicture=memberPicture;
 	}
 
 	public Member(Department department, String memberName, String memberMajor,
 			String memberHometown, String memberBirthday, String memberGender,
-			String memberPassword, String memberPosition, String memberPhone,
+			String memberPassword, String memberPosition, String memberPhone,String memberPicture,
 			Set departments) {
 		this.department = department;
 		this.memberName = memberName;
@@ -81,6 +92,7 @@ public class Member implements java.io.Serializable {
 		this.memberPosition = memberPosition;
 		this.memberPhone = memberPhone;
 		this.departments = departments;
+		this.memberPicture=memberPicture;
 	}
 
 	public Integer getMemberId() {
