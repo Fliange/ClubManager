@@ -73,6 +73,7 @@
 	</bean>
 	<bean id="memberAction" class="com.nankai.app.action.MemberAction" scope="prototype">
 		<property name="memberService" ref="memberService"/>
+		<property name="departmentService" ref="departmentService"/>
 	</bean>
 	<bean id="departmentAction" class="com.nankai.app.action.DepartmentAction" scope="prototype">
 		<property name="departmentService" ref="departmentService"/>

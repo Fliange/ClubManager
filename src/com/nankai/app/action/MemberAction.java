@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.nankai.app.domain.Department;
 import com.nankai.app.domain.Member;
+import com.nankai.app.service.DepartmentService;
 import com.nankai.app.service.MemberService;
 import com.nankai.app.util.HibernateUtil;
 import com.nankai.app.vo.RegisterPage;
@@ -60,7 +61,11 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
+	private DepartmentService departmentService;
 	
+	public void setDepartmentService(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
 	public String updatePassword(){
 		Member mem = memberService.findMemberByID(member.getMemberId());
 		if(mem.getMemberPassword().equals(member.getOldmemberPassword()))
@@ -178,6 +183,34 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     public String update(){
     	memberService.update(member);
     	return "member_search";
+    }
+    public String updateMemberForAndroid(){
+    	response.setCharacterEncoding("utf-8");
+    	//想得到这个人的密码因为修改成员信息修改不了成员的密码
+    	Member mem1=memberService.findMemberByID(Integer.parseInt(request.getParameter("number")));
+    	Member mem=new Member();
+    	mem.setMemberPassword(mem1.getMemberPassword());
+    	String s=request.getParameter("dpt").substring(0, 3);
+    	mem.setMemberId(Integer.parseInt(request.getParameter("number")));
+    	mem.setMemberName(request.getParameter("name"));
+    	mem.setMemberGender(request.getParameter("sex"));
+    	mem.setMemberMajor(request.getParameter("major"));
+    	mem.setMemberHometown(request.getParameter("hometown"));
+    	mem.setMemberBirthday(request.getParameter("birthday"));
+    	mem.setMemberPhone(request.getParameter("phone"));
+    	mem.setMemberPosition(request.getParameter("position"));
+    	mem.setDepartment(departmentService.findDepartmentByID(Integer.parseInt(s)));
+    	mem.setMemberPicture(request.getParameter("picturePath"));
+    	memberService.update(mem);
+    	try {
+			PrintWriter out = response.getWriter();
+			out.print("success");
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return "success";
     }
     public String findByID(){
     	//按ID查找，返回的是单个对象，为了统一，也存到链表里面
