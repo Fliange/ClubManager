@@ -1,0 +1,154 @@
+package com.nankai.app.action;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.interceptor.ServletResponseAware;
+
+import com.nankai.app.domain.Chatroom;
+import com.nankai.app.domain.Collection;
+import com.nankai.app.service.ChatService;
+import com.nankai.app.service.CollectionService;
+import com.nankai.app.service.MemberService;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+public class CollectionAction  extends ActionSupport implements ModelDriven<Collection>,ServletResponseAware,ServletRequestAware{
+	private Collection collection;
+	private MemberService memberService;
+	private HttpServletResponse response;
+	private HttpServletRequest request;
+	
+	//使用chatService对数据库中 聊天室这张表进行增删改查
+	private CollectionService collectionService;
+	
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
+	public void setCollectionService(CollectionService collectionService) {
+		this.collectionService = collectionService;
+	}
+
+	public String test()
+	{
+		System.out.println("collection test 函数");	
+		//为了安卓，出一个request
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String activityId = request.getParameter("activityId");
+		String userId = request.getParameter("userId");
+		String state = request.getParameter("state");
+		System.out.println("activityId------------"+activityId);
+		System.out.println("userId------------"+userId);
+		System.out.println("state------------"+state);
+		
+		//从数据库找出当前userId和activityId对应的收藏记录
+		//Collection mCollection = collectionService.findCollectionByUserAndActivity(Integer.parseInt(userId), Integer.parseInt(activityId));
+		int actID = Integer.parseInt(activityId);
+		int userID = Integer.parseInt(userId);
+		Collection mCollection = new Collection();
+		mCollection.setActivityId(actID);
+		mCollection.setUserId(userID);
+		collectionService.add(mCollection);
+		/*if(mCollection != null)
+		{
+			collectionService.add(mCollection);
+		}*/
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println("写入数据库成功喽！");
+			out.flush();
+			out.close();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*String content = request.getParameter("content");
+		System.out.println(content+"------");
+		if(content != null ){
+			Chatroom newChat = new Chatroom();
+			newChat.setMessageAuthor(1);
+			newChat.setMessageContent(content);
+			collectionService.add(newChat);
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				out.println("写入数据库成功喽！");
+				out.println(content);
+				out.flush();
+				out.close();
+				return null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
+		
+		return SUCCESS;
+		
+	}
+	
+	public String findCollectionByUserAndActivity() {
+		
+		//为了安卓，出一个request
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		String activityId = request.getParameter("activityId");
+		String userId = request.getParameter("userId");
+		//去数据库查记录
+		Collection mCollection = collectionService.findCollectionByUserAndActivity(Integer.parseInt(userId), Integer.parseInt(activityId));
+		
+			PrintWriter out;
+			try {
+				out = response.getWriter();
+				if(mCollection != null)
+				{
+					out.println("writesuccess");
+				}
+				else{
+					out.println("writesufail");
+				}
+				out.flush();
+				out.close();
+				return null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		return null;
+	}
+	
+	
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+
+	@Override
+	public void setServletResponse(HttpServletResponse response) {
+		this.response = response;
+	}
+
+	@Override
+	public Collection getModel() {
+		return collection;
+	}
+
+}
