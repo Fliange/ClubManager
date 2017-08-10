@@ -12,4 +12,5 @@ public interface MaterialService {
 		public void delete(int materialId);
 		public MaterialPage findAll(int currentPage,int pageSize);
 		public Material findMaterialById(int materialId);
+		public List<Material> findAllForAndroid();
 }

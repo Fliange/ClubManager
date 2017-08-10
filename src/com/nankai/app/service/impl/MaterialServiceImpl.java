@@ -52,4 +52,10 @@ public class MaterialServiceImpl implements MaterialService{
 		return materialDao.findMaterialById(materialId);
 	}
 
+	@Override
+	public List<Material> findAllForAndroid() {
+		// TODO Auto-generated method stub
+		return materialDao.findAllForAndroid();
+	}
+
 }

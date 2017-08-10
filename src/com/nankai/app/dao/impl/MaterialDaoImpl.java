@@ -58,4 +58,18 @@ public class MaterialDaoImpl extends HibernateDaoSupport implements MaterialDao{
 		return count.intValue();
 	}
 
+	@Override
+	public List<Material> findAllForAndroid() {
+		// TODO Auto-generated method stub
+		List list = this.getHibernateTemplate().executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException,SQLException {
+				Query query  = session.createQuery("from Material");
+			
+				List<Material> list = query.list();
+				return list;
+			}
+		});
+		return list;
+	}
+
 }

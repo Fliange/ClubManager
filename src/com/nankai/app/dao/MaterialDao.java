@@ -11,4 +11,5 @@ public interface MaterialDao {
 	public List<Material> findAll(int currentPage,int pageSize);
 	public Material findMaterialById(int materialId);
 	public int findTotalCount();
+	public List<Material> findAllForAndroid();
 }
