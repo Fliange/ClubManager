@@ -65,6 +65,7 @@
 	<bean id="actAction" class="com.nankai.app.action.ActivityAction" scope="prototype">
 		<property name="actService" ref="actService"></property>
 		<property name="orgService" ref="orgService"/>
+		<property name="collectionService" ref="collectionService"/>
 	</bean>
 	<bean id="registerAction" class="com.nankai.app.action.RegisterAction" scope="prototype">
 		<property name="registerService" ref="registerService"/>

@@ -33,8 +33,7 @@ public class CollectionDaoImpl extends HibernateDaoSupport implements Collection
 
 	@Override
 	public List<Collection> findCollectionByUser(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getHibernateTemplate().find("from Collection where userId = ?",userId);
 	}
 
 	@Override

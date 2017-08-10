@@ -15,7 +15,7 @@ public interface CollectionDao {
 	public void delete(Collection collection);
 	//查询全部
 	public List<Collection> findAll();
-	//根据收藏者查询
+	//根据收藏者查询，查找该用户的所有收藏记录‘
 	public List<Collection> findCollectionByUser(int userId);
 	//根据活动查询
 	public List<Collection> findCollectionByActivity(int activityId);
