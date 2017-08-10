@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.nankai.app.domain.Department;
 import com.nankai.app.domain.Member;
+import com.nankai.app.domain.Register;
 import com.nankai.app.service.DepartmentService;
 import com.nankai.app.service.MemberService;
 import com.nankai.app.util.HibernateUtil;
@@ -139,6 +140,31 @@ public class MemberAction extends ActionSupport implements ModelDriven<Member>,S
     	memberService.add(member);
     	return "member_search";
     }
+	public void addForAndroid(){
+		response.setCharacterEncoding("utf-8");
+		String s=request.getParameter("dpt1");
+    	Member mem=new Member();
+    	mem.setMemberPassword("1");
+    	mem.setMemberId(Integer.parseInt(request.getParameter("rnumber")));
+    	mem.setMemberName(request.getParameter("rname"));
+    	mem.setMemberGender(request.getParameter("rsex"));
+    	mem.setMemberMajor(request.getParameter("rmajor"));
+    	mem.setMemberHometown(request.getParameter("rhometown"));
+    	mem.setMemberBirthday(request.getParameter("rbirthday"));
+    	mem.setMemberPhone(request.getParameter("rphone"));
+    	mem.setMemberPosition(request.getParameter("rposition"));
+    	mem.setDepartment(departmentService.findDepartmentByID(Integer.parseInt(s)));
+    	mem.setMemberPicture(request.getParameter("rpicturePath"));
+    	memberService.add(mem);
+    	try {
+			PrintWriter out = response.getWriter();
+			out.print("success");
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     public String delete(){
     	Member member1=memberService.findMemberByID(member.getMemberId());
     	memberService.delete(member1);

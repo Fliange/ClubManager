@@ -96,6 +96,7 @@ public class LoginAction extends ActionSupport implements ModelDriven<Member>,Se
 		{
 			obj.put("position",member.getMemberPosition());
 			obj.put("department", member.getDepartment().getDepartmentId());
+			obj.put("name", member.getMemberName());
 			try {
 				PrintWriter out = response.getWriter();
 				out.print(obj.toString());

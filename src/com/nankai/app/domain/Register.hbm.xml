@@ -8,10 +8,10 @@
             <column name="registerId" />
             <generator class="identity" />
         </id>
-        <many-to-one name="departmentByRegisterIntention1" class="com.nankai.app.domain.Department" fetch="select">
+        <many-to-one name="departmentByRegisterIntention1" class="com.nankai.app.domain.Department" fetch="select" lazy="false">
             <column name="registerIntention1" />
         </many-to-one>
-        <many-to-one name="departmentByRegisterIntention2" class="com.nankai.app.domain.Department" fetch="select">
+        <many-to-one name="departmentByRegisterIntention2" class="com.nankai.app.domain.Department" fetch="select" lazy="false">
             <column name="registerIntention2" />
         </many-to-one>
         <property name="registerName" type="string">
