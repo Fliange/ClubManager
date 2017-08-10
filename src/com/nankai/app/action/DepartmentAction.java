@@ -84,6 +84,7 @@ public class DepartmentAction extends ActionSupport implements ModelDriven<Depar
 		for(Department dpt:dptList){
 			JSONObject obj=new JSONObject();
 			obj.put("departmentId", dpt.getDepartmentId());
+			obj.put("departmentOrg", dpt.getOrganization().getOrganizationName());
 			obj.put("departmentName", dpt.getDepartmentName());
 			array.add(obj);
 		}
@@ -91,7 +92,6 @@ public class DepartmentAction extends ActionSupport implements ModelDriven<Depar
 		try {
 			PrintWriter out = response.getWriter();
 			out.print(array.toString());
-//			out.print("hello");
 			out.flush();
 			out.close();
 		} catch (IOException e) {

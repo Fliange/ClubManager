@@ -10,7 +10,8 @@
 
 		<interceptors>
 			<interceptor name="my" class="com.nankai.app.util.loginInterceptor">
-				<param name="excludeMethods">showAll,findById,add,showAllForList,managerSearchForAndroid</param>
+				<param name="excludeMethods">showAll,findById,add,showAllForList,managerSearchForAndroid,addActivityForAndroid</param>
+
 			</interceptor>
 			<interceptor-stack name="myStack">
 				<interceptor-ref name="my"></interceptor-ref>
@@ -84,6 +85,9 @@
 	    	<result name="false">index.jsp</result>
     	</action>
     	<action name="Chat_*" class="com.nankai.app.action.ChatAction" method="{1}">
+    		<result name="success">index.jsp</result>
+    	</action>
+    	<action name="Collection_*" class="com.nankai.app.action.CollectionAction" method="{1}">
     		<result name="success">index.jsp</result>
     	</action>
     </package>
