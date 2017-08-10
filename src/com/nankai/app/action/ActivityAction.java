@@ -19,8 +19,10 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import com.alibaba.fastjson.JSON;
 import com.nankai.app.domain.Activity;
 import com.nankai.app.domain.Chatroom;
+import com.nankai.app.domain.Collection;
 import com.nankai.app.domain.Organization;
 import com.nankai.app.service.ActService;
+import com.nankai.app.service.CollectionService;
 import com.nankai.app.service.OrgService;
 import com.nankai.app.vo.ActPage;
 import com.nankai.app.vo.OrgPage;
@@ -31,6 +33,11 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 	private Activity act = new Activity();
 	private ActService actService;
 	private OrgService orgService;
+	private CollectionService collectionService;
+	
+	public void setCollectionService(CollectionService collectionService) {
+		this.collectionService = collectionService;
+	}
 	public void setOrgService(OrgService orgService) {
 		this.orgService = orgService;
 	}
@@ -123,6 +130,67 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 		return SUCCESS;
 	}
 	
+	public String showAllCollection()
+	{
+		//为了安卓，出一个request
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String userId = request.getParameter("userId");
+		System.out.println(userId+"------userId");
+		//找到这个人的所有收藏记录
+		List<Collection> list = collectionService.findCollectionByUser(Integer.parseInt(userId));
+		//用一个列表，存所有收藏的活动
+		List<Activity> actList = new ArrayList<Activity>();
+		int actId;
+		for(int i = 0; i < list.size(); i++)
+		{
+			actId = list.get(i).getActivityId();
+			actList.add(actService.findMemberByID(actId));
+		}
+		
+		//将活动的列表转成json
+		//首先
+		List<HashMap<String, Object>> map_List = new ArrayList<HashMap<String, Object>>();
+             
+        
+        System.out.println("收藏数量---"+actList.size());
+        for(Activity act :actList)    
+        {    
+            System.out.println(act.getActivityName());
+            HashMap<String,Object> map = new HashMap();
+
+            map.put("ActivityId", act.getActivityId());
+            map.put("ActivityName",act.getActivityName());
+            map.put("ActivityIntroduction", act.getActivityIntroduction());
+            map.put("ActivityLocatio", act.getActivityLocation());
+            map.put("ActivityContent", act.getActivityContent());
+            map.put("ActivityPicture", act.getActivityPicture());
+            map.put("ActivityOrganization", act.getOrganization().getOrganizationName());
+            map_List.add(map);
+        }
+        
+   	 	String result = JSON.toJSONString(map_List);
+   	 	System.out.println("收藏JSON-----"+result);
+
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println(result);
+			out.flush();
+			out.close();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return SUCCESS;
+	}
+	
 	public String showAllForManager()
 	{
 		ActPage actPage = actService.findAll(currentPage, pageSize);
@@ -170,6 +238,7 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 	public void setServletResponse(HttpServletResponse response) {
 		this.response = response;
 	}
+	
 	public String addActivityForAndroid()
 	{
 		

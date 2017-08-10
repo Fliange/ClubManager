@@ -10,7 +10,7 @@
 
 		<interceptors>
 			<interceptor name="my" class="com.nankai.app.util.loginInterceptor">
-				<param name="excludeMethods">showAll,findById,add,showAllForList,managerSearchForAndroid,addActivityForAndroid</param>
+				<param name="excludeMethods">showAll,findById,add,showAllForList,managerSearchForAndroid,addActivityForAndroid,showAllCollection</param>
 
 			</interceptor>
 			<interceptor-stack name="myStack">
@@ -80,7 +80,7 @@
     		<result name="registerjsp">register.jsp</result>
     		<result name="updateMember">updateMember.jsp</result>
     	</action>
-	    	<action name="loadImage" class="com.nankai.app.action.LoadImage" method="GenerateImage">
+	    <action name="loadImage" class="com.nankai.app.action.LoadImage" method="GenerateImage">
 	    	<result name="true">index.jsp</result>
 	    	<result name="false">index.jsp</result>
     	</action>
@@ -89,6 +89,10 @@
     	</action>
     	<action name="Collection_*" class="com.nankai.app.action.CollectionAction" method="{1}">
     		<result name="success">index.jsp</result>
+    	</action>
+    	<action name="loadImageForSwain_*" class="com.nankai.app.action.LoadImage" method="{1}">
+	    	<result name="true">index.jsp</result>
+	    	<result name="false">index.jsp</result>
     	</action>
     </package>
 

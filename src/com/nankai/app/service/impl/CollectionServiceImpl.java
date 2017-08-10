@@ -38,8 +38,7 @@ public class CollectionServiceImpl implements CollectionService{
 
 	@Override
 	public List<Collection> findCollectionByUser(int userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return collectionDao.findCollectionByUser(userId);
 	}
 
 	@Override
