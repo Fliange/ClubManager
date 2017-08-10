@@ -21,6 +21,7 @@ import com.nankai.app.domain.Activity;
 import com.nankai.app.domain.Chatroom;
 import com.nankai.app.domain.Organization;
 import com.nankai.app.service.ActService;
+import com.nankai.app.service.OrgService;
 import com.nankai.app.vo.ActPage;
 import com.nankai.app.vo.OrgPage;
 import com.opensymphony.xwork2.ActionSupport;
@@ -29,6 +30,10 @@ import com.opensymphony.xwork2.ModelDriven;
 public class ActivityAction extends ActionSupport implements ModelDriven<Activity>,ServletResponseAware,ServletRequestAware{
 	private Activity act = new Activity();
 	private ActService actService;
+	private OrgService orgService;
+	public void setOrgService(OrgService orgService) {
+		this.orgService = orgService;
+	}
 	//给安卓传数据用到的
 	private HttpServletResponse response;
 	private HttpServletRequest request;
@@ -82,7 +87,7 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 		//将活动的列表转成json
 		//首先
 		List<HashMap<String, Object>> map_List = new ArrayList<HashMap<String, Object>>();
-        
+             
         
         System.out.println("---"+actList.size());
         for(Activity act :actList)    
@@ -177,27 +182,38 @@ public class ActivityAction extends ActionSupport implements ModelDriven<Activit
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String content = request.getParameter("ActivityName");
-		System.out.println(content+"------");
-		/*if(content != null ){
-			Chatroom newChat = new Chatroom();
-			newChat.setMessageAuthor(1);
-			newChat.setMessageContent(content);
-			chatService.add(newChat);
-			PrintWriter out;
-			try {
-				out = response.getWriter();
-				out.println("写入数据库成功喽！");
-				out.println(content);
-				out.flush();
-				out.close();
-				return null;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
+		String ActivityName = request.getParameter("ActivityName");
+		String ActivityContent = request.getParameter("ActivityContent");
+		String ActivityOrganization = request.getParameter("ActivityOrganization");
+		String ActivityTime = request.getParameter("ActivityTime");
+		String ActivityIntroduction = request.getParameter("ActivityIntroduction");
+		String ActivityLocation = request.getParameter("ActivityLocation");
+		String ActivityCover = request.getParameter("ActivityCover");
 		
+		
+		System.out.println(ActivityName+"------ActivityName");
+		System.out.println(ActivityContent+"------ActivityContent");
+		System.out.println(ActivityOrganization+"------ActivityOrganization");
+		System.out.println(ActivityTime+"------ActivityTime");
+		System.out.println(ActivityIntroduction+"------ActivityIntroduction");
+		System.out.println(ActivityCover+"------ActivityCover");
+		System.out.println(ActivityLocation+"------ActivityLocation");
+		
+		//if(ActivityName != null && ActivityContent != null &&  ActivityOrganization != null && ActivityTime != null && ActivityIntroduction != null){
+			Activity activity = new Activity();
+			activity.setActivityContent(ActivityContent);
+			activity.setActivityName(ActivityName);
+			activity.setActivityTime(ActivityTime);
+			Organization organization = orgService.findById(Integer.parseInt(ActivityOrganization.substring(0,1)));
+			activity.setOrganization(organization);
+			activity.setActivityIntroduction(ActivityIntroduction);
+			activity.setActivityLocation(ActivityLocation);
+			activity.setActivityPicture(ActivityCover);
+			System.out.println("将写入数据库--------");
+			actService.add(activity);
+			System.out.println("写入数据库成功！");
+			
+		//}
 		return SUCCESS;
 		
 	}

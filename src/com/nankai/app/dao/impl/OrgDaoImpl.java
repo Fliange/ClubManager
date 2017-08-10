@@ -54,4 +54,15 @@ public class OrgDaoImpl extends HibernateDaoSupport implements OrgDao{
 		return count.intValue();
 	}
 
+	@Override
+	public Organization findById(int id) {
+		List<Organization> list = this.getHibernateTemplate().find("from Organization where organizationId = ?",id);
+		if(list.isEmpty()){
+			return null;
+		}
+		else{
+			return list.get(0);
+		}
+	}
+
 }

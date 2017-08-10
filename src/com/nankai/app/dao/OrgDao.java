@@ -17,4 +17,5 @@ public interface OrgDao {
 /*	public Organization findBookById(int oid);
 	public int findTotalCount();*/
 	public int findTotalCount();
+	public Organization findById(int id);
 }

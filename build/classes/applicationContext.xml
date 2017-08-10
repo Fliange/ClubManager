@@ -51,6 +51,7 @@
 				<value>com/nankai/app/domain/Member.hbm.xml</value>
 				<value>com/nankai/app/domain/Material.hbm.xml</value>
 				<value>com/nankai/app/domain/Chatroom.hbm.xml</value>
+				<value>com/nankai/app/domain/Collection.hbm.xml</value>
 			</list>
 		</property> 
 	</bean>
@@ -61,6 +62,7 @@
 	</bean>
 	<bean id="actAction" class="com.nankai.app.action.ActivityAction" scope="prototype">
 		<property name="actService" ref="actService"></property>
+		<property name="orgService" ref="orgService"/>
 	</bean>
 	<bean id="registerAction" class="com.nankai.app.action.RegisterAction" scope="prototype">
 		<property name="registerService" ref="registerService"/>
@@ -78,6 +80,9 @@
 	<bean id="loginAction" class="com.nankai.app.action.LoginAction" scope="prototype"/>
 	<bean id="chatAction" class="com.nankai.app.action.ChatAction" scope="prototype">
 		<property name="chatService" ref="chatService"/>
+	</bean>
+	<bean id="collectionAction" class="com.nankai.app.action.CollectionAction" scope="prototype">
+		<property name="collectionService" ref="collectionService"/>
 	</bean>
 	
 	<!-- Service的配置 -->
@@ -103,6 +108,9 @@
 	<bean id="chatService" class="com.nankai.app.service.impl.ChatServiceImpl">
 		<property name="chatDao" ref="chatDao"/>
 	</bean>
+	<bean id="collectionService" class="com.nankai.app.service.impl.CollectionServiceImpl">
+		<property name="collectionDao" ref="collectionDao"/>
+	</bean>
 	
 	<!-- DAO的配置 -->
 	<bean id="orgDao" class="com.nankai.app.dao.impl.OrgDaoImpl">
@@ -124,6 +132,9 @@
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	<bean id="chatDao" class="com.nankai.app.dao.impl.ChatDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="collectionDao" class="com.nankai.app.dao.impl.CollectionDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	

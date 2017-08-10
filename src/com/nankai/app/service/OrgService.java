@@ -12,4 +12,5 @@ public interface OrgService {
 	public void delete(int oid);
 	//查询全部,返回分页所需的数据
 	public OrgPage findAll(int currentPage,int pageSize);
+	public Organization findById(int id);
 }

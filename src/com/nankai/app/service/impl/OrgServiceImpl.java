@@ -46,4 +46,9 @@ public class OrgServiceImpl implements OrgService{
 		return orgPage;
 	}
 
+	@Override
+	public Organization findById(int id) {
+		return orgDao.findById(id);
+	}
+
 }

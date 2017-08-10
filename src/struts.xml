@@ -86,6 +86,9 @@
     	<action name="Chat_*" class="com.nankai.app.action.ChatAction" method="{1}">
     		<result name="success">index.jsp</result>
     	</action>
+    	<action name="Collection_*" class="com.nankai.app.action.CollectionAction" method="{1}">
+    		<result name="success">index.jsp</result>
+    	</action>
     </package>
 
 </struts>
