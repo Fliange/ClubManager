@@ -35,7 +35,7 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 		this.collectionService = collectionService;
 	}
 
-	public String test()
+	public String select()
 	{
 		System.out.println("collection test 函数");	
 		//为了安卓，出一个request
@@ -56,10 +56,20 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 		//Collection mCollection = collectionService.findCollectionByUserAndActivity(Integer.parseInt(userId), Integer.parseInt(activityId));
 		int actID = Integer.parseInt(activityId);
 		int userID = Integer.parseInt(userId);
-		Collection mCollection = new Collection();
-		mCollection.setActivityId(actID);
-		mCollection.setUserId(userID);
-		collectionService.add(mCollection);
+		
+		if(state.equals("true"))
+		{//添加收藏
+			Collection mCollection = new Collection();
+			mCollection.setActivityId(actID);
+			mCollection.setUserId(userID);
+			collectionService.add(mCollection);
+		}
+		else
+		{//删除收藏
+			Collection nCollection = collectionService.findCollectionByUserAndActivity(userID, actID);
+			collectionService.delete(nCollection);
+		}
+		
 		/*if(mCollection != null)
 		{
 			collectionService.add(mCollection);
@@ -122,7 +132,7 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 					out.println("writesuccess");
 				}
 				else{
-					out.println("writesufail");
+					out.println("writefail");
 				}
 				out.flush();
 				out.close();
