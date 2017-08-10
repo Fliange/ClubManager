@@ -48,6 +48,7 @@ public class LoadImage implements ServletResponseAware,ServletRequestAware{
             imgPath = LoadImage.class.getClassLoader().getResource("").getPath();
             imgPath = imgPath.split("WEB-INF")[0];
             imgPath = imgPath+"images/head/"+username+".png";
+            System.out.println(imgPath+"--------------");
             //¸ü»»Í·Ïñ
             Member member=memberService.findMemberByID(Integer.parseInt(username));
             member.setMemberPicture("head/"+username+".png");
