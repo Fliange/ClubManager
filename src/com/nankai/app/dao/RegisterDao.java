@@ -13,4 +13,6 @@ public interface RegisterDao {
 	public void delete(Register register);
 	
 	public void update(Register register);
+	public List<Register> managerSearchForAndroid(Member user,String position);
 }
+

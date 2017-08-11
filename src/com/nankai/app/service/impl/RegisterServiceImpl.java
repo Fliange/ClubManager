@@ -52,7 +52,9 @@ public class RegisterServiceImpl implements RegisterService{
 		return registerPage;
 	}
 
-
+	public List<Register> managerSearchForAndroid(Member mem,String position){
+		return registerDao.managerSearchForAndroid(mem, position);
+	}
 	@Override
 	public void delete(Register register) {
 		registerDao.delete(register);
