@@ -94,11 +94,15 @@ public class RegisterAction extends ActionSupport implements ModelDriven<Registe
 		return SUCCESS;
 	}
 	public void managerSearchForAndroid(){
+		System.out.println("managerSearchForAndroid执行");
 		response.setCharacterEncoding("utf-8");
 		String position=(String) request.getParameter("position");
 		String username=(String) request.getParameter("username");
+		System.out.println("收到"+position+"--------"+username);
 		Member mem=memberService.findMemberByID(Integer.parseInt(username));
+		System.out.println("人员"+mem);
 		List<Register> regList=registerService.managerSearchForAndroid(mem, position);
+		System.out.println("kk"+regList.toString());
 		JSONArray array=new JSONArray();
     	
 		for(Register reg:regList){
@@ -107,6 +111,8 @@ public class RegisterAction extends ActionSupport implements ModelDriven<Registe
 		    obj.put("registerPicture", reg.getRegisterPicture());
 			obj.put("registerName", reg.getRegisterName());
 			array.add(obj);
+
+			System.out.println("m内容b"+obj.toString());
 		}
 		try {
 			PrintWriter out = response.getWriter();

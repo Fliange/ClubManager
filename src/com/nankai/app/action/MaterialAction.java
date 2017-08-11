@@ -79,7 +79,7 @@ public class MaterialAction extends ActionSupport implements ModelDriven<Materia
 	public void deleteForAndroid(){
 		response.setCharacterEncoding("utf-8");
 		String materialId=(String) request.getParameter("materialId");
-		materialService.delete(Integer.parseInt(materialId));
+		materialService.delete(Integer.parseInt(materialId)-2);
 		try {
 			PrintWriter out = response.getWriter();
 			out.print("success");
