@@ -25,9 +25,8 @@ public class ChatDaoImpl extends HibernateDaoSupport implements ChatDao {
 	}
 
 	@Override
-	public List<Chatroom> findAll(int currentPage, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Chatroom> findAll() {
+		return this.getHibernateTemplate().find("from Chatroom order by messageId desc");
 	}
 
 	@Override

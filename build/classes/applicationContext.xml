@@ -84,6 +84,7 @@
 	<bean id="loginAction" class="com.nankai.app.action.LoginAction" scope="prototype"/>
 	<bean id="chatAction" class="com.nankai.app.action.ChatAction" scope="prototype">
 		<property name="chatService" ref="chatService"/>
+		<property name="memberService" ref="memberService"/>
 	</bean>
 	<bean id="collectionAction" class="com.nankai.app.action.CollectionAction" scope="prototype">
 		<property name="collectionService" ref="collectionService"/>

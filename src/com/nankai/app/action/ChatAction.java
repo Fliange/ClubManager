@@ -3,6 +3,11 @@ package com.nankai.app.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.alibaba.fastjson.JSON;
+import com.nankai.app.domain.Activity;
 import com.nankai.app.domain.Chatroom;
+import com.nankai.app.domain.Member;
 import com.nankai.app.service.ChatService;
 import com.nankai.app.service.MemberService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -19,6 +27,10 @@ import com.opensymphony.xwork2.ModelDriven;
 public class ChatAction  extends ActionSupport implements ModelDriven<Chatroom>,ServletResponseAware,ServletRequestAware{
 	private Chatroom chatroom;
 	private MemberService memberService;
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
 	private HttpServletResponse response;
 	private HttpServletRequest request;
 	
@@ -31,8 +43,6 @@ public class ChatAction  extends ActionSupport implements ModelDriven<Chatroom>,
 
 	public String test()
 	{
-		
-		
 		//为了安卓，出一个request
 		response.setContentType("text/html; charset=utf-8");
 		try {
@@ -42,28 +52,80 @@ public class ChatAction  extends ActionSupport implements ModelDriven<Chatroom>,
 			e1.printStackTrace();
 		}
 		String content = request.getParameter("content");
-		System.out.println(content+"------");
+		String userId = request.getParameter("userId");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		String messageTime = df.format(new Date());// new Date()为获取当前系统时间
+		System.out.println(content+"------"+userId+"---------"+messageTime);
 		if(content != null ){
 			Chatroom newChat = new Chatroom();
-			newChat.setMessageAuthor(1);
+			newChat.setMessageAuthor(Integer.parseInt(userId));
 			newChat.setMessageContent(content);
+			newChat.setMessageTime(messageTime);
 			chatService.add(newChat);
+			System.out.println("保存数据库成功！");
+			//把成功信息写出去	
 			PrintWriter out;
 			try {
 				out = response.getWriter();
-				out.println("写入数据库成功喽！");
-				out.println(content);
+				out.println("chatSuccess");
 				out.flush();
 				out.close();
 				return null;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}	
 		}
 		
 		return SUCCESS;
 		
+	}
+	
+	//查询所有公告
+	public String findAll() {
+		//为了安卓，出一个request
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			request.setCharacterEncoding("utf-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//从数据库查询所有的公告
+		List<Chatroom> list = chatService.findAll();
+		//将活动的列表转成json
+		//首先
+		List<HashMap<String, Object>> map_List = new ArrayList<HashMap<String, Object>>();
+             
+        System.out.println("公告数量---"+list.size());
+        for(Chatroom chat :list)    
+        {    
+            HashMap<String,Object> map = new HashMap();
+            Member mem = memberService.findMemberByID(chat.getMessageAuthor());
+            if(mem == null)
+            	continue;
+            String authorName = mem.getMemberName();
+            map.put("MessageAuthor", authorName);
+            map.put("MessageContent",chat.getMessageContent());
+            map.put("MessageTime", chat.getMessageTime());
+            map_List.add(map);
+        }
+        
+   	 	String result = JSON.toJSONString(map_List);
+   	 	System.out.println("公告JSON-----"+result);
+
+		//把json写出去	
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.println(result);
+			out.flush();
+			out.close();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+		return SUCCESS;	
 	}
 	
 	@Override

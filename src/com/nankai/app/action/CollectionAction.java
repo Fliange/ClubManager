@@ -24,7 +24,7 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 	private HttpServletResponse response;
 	private HttpServletRequest request;
 	
-	//使用chatService对数据库中 聊天室这张表进行增删改查
+
 	private CollectionService collectionService;
 	
 	public void setMemberService(MemberService memberService) {
@@ -69,45 +69,8 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 			Collection nCollection = collectionService.findCollectionByUserAndActivity(userID, actID);
 			collectionService.delete(nCollection);
 		}
-		
-		/*if(mCollection != null)
-		{
-			collectionService.add(mCollection);
-		}*/
-		PrintWriter out;
-		try {
-			out = response.getWriter();
-			out.println("写入数据库成功喽！");
-			out.flush();
-			out.close();
-			return null;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*String content = request.getParameter("content");
-		System.out.println(content+"------");
-		if(content != null ){
-			Chatroom newChat = new Chatroom();
-			newChat.setMessageAuthor(1);
-			newChat.setMessageContent(content);
-			collectionService.add(newChat);
-			PrintWriter out;
-			try {
-				out = response.getWriter();
-				out.println("写入数据库成功喽！");
-				out.println(content);
-				out.flush();
-				out.close();
-				return null;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}*/
-		
-		return SUCCESS;
-		
+
+		return null;
 	}
 	
 	public String findCollectionByUserAndActivity() {
@@ -124,23 +87,23 @@ public class CollectionAction  extends ActionSupport implements ModelDriven<Coll
 		//去数据库查记录
 		Collection mCollection = collectionService.findCollectionByUserAndActivity(Integer.parseInt(userId), Integer.parseInt(activityId));
 		
-			PrintWriter out;
-			try {
-				out = response.getWriter();
-				if(mCollection != null)
-				{
-					out.println("writesuccess");
-				}
-				else{
-					out.println("writefail");
-				}
-				out.flush();
-				out.close();
-				return null;
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			if(mCollection != null)
+			{
+				out.println("writesuccess");
 			}
+			else{
+				out.println("writefail");
+			}
+			out.flush();
+			out.close();
+			return null;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}

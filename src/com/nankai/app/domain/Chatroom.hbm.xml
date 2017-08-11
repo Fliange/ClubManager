@@ -14,5 +14,8 @@
         <property name="messageContent" type="string">
             <column name="messageContent" not-null="false" />
         </property>
+        <property name="messageTime" type="string">
+            <column name="messageTime" not-null="false" />
+        </property>
     </class>
 </hibernate-mapping>

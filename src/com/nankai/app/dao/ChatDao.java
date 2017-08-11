@@ -13,7 +13,7 @@ public interface ChatDao {
 	//删除
 	public void delete(Chatroom chat);
 	//查询全部
-	public List<Chatroom> findAll(int currentPage,int pageSize);
+	public List<Chatroom> findAll();
 	//根据id去查询社团
 	public int findTotalCount();
 }

@@ -1,5 +1,7 @@
 package com.nankai.app.service;
 
+import java.util.List;
+
 import com.nankai.app.domain.Chatroom;
 
 
@@ -11,8 +13,8 @@ public interface ChatService {
 	public void update(Chatroom chat);
 	//删除
 	public void delete(Chatroom chat);
-	/*//查询全部,返回分页所需的数据
-	public ActPage findAll(int currentPage,int pageSize);
+	//查询全部,返回数据
+	public List<Chatroom> findAll();
 	//通过ID查询
-	public Activity findMemberByID(int aid);*/
+	/*public Activity findMemberByID(int aid);*/
 }

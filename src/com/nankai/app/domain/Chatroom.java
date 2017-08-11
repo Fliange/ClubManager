@@ -4,6 +4,13 @@ public class Chatroom {
 	private int messageId;
 	private int messageAuthor;
 	private String messageContent;
+	private String messageTime;
+	public String getMessageTime() {
+		return messageTime;
+	}
+	public void setMessageTime(String messageTime) {
+		this.messageTime = messageTime;
+	}
 	public int getMessageId() {
 		return messageId;
 	}
